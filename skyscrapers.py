@@ -24,7 +24,16 @@ def left_to_right_check(input_line: str, pivot: int):
     >>> left_to_right_check("452453*", 5)
     False
     """
-    pass
+    pivot -= 1
+    for index, building in enumerate(input_line[2:-1]):
+        for building_before in input_line[1:index+2]:
+            if building_before >= building:
+                pivot += 1
+                break
+        pivot -= 1
+    if not pivot:
+        return True
+    return False
 
 def check_not_finished_board(board: list):
     """
@@ -39,7 +48,10 @@ def check_not_finished_board(board: list):
     >>> check_not_finished_board(['***21**', '412453*', '423145*', '*5?3215', '*35214*', '*41532*', '*2*1***'])
     False
     """
-    pass
+    for line in board:
+        if '?' in line:
+            return False
+    return True
 
 
 def check_uniqueness_in_rows(board: list):
@@ -55,7 +67,11 @@ def check_uniqueness_in_rows(board: list):
     >>> check_uniqueness_in_rows(['***21**', '412453*', '423145*', '*553215', '*35214*', '*41532*', '*2*1***'])
     False
     """
-    pass
+    for line in board[1:-1]:
+        line_list = [i for i in line[1:-1]]
+        if len(set(line_list)) < len(line_list):
+            return False
+    return True
 
 
 def check_horizontal_visibility(board: list):
