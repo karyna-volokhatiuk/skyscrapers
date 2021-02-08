@@ -10,6 +10,7 @@ def read_input(path: str):
         output.append(line.strip())
     return output
 
+
 def left_to_right_check(input_line: str, pivot: int):
     """
     Check row-wise visibility from left to right.
@@ -34,6 +35,7 @@ def left_to_right_check(input_line: str, pivot: int):
     if not pivot:
         return True
     return False
+
 
 def check_not_finished_board(board: list):
     """
@@ -89,7 +91,16 @@ def check_horizontal_visibility(board: list):
     >>> check_horizontal_visibility(['***21**', '452413*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
     False
     """
-    pass
+    if check_not_finished_board(board) and check_uniqueness_in_rows(board):
+        for line in board[1:-1]:
+            if line[0] != "*":
+                if not left_to_right_check(line, int(line[0])):
+                    return False
+            if line[-1] != "*":
+                if not left_to_right_check(line[::-1], int(line[-1])):
+                    return False
+        return True
+    return False
 
 
 def check_columns(board: list):
@@ -105,7 +116,16 @@ def check_columns(board: list):
     >>> check_columns(['***21**', '412553*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
     False
     """
-    pass
+    num_of_columns = len(board[0])
+    transformed_board = []
+    for i in range(num_of_columns):
+        column = ''
+        for line in board:
+            column += line[i]
+        transformed_board.append(column)
+
+    return check_horizontal_visibility(transformed_board)
+
 
 def check_skyscrapers(input_path: str):
     """
@@ -116,4 +136,7 @@ def check_skyscrapers(input_path: str):
     >>> check_skyscrapers("check.txt")
     True
     """
-    pass
+    board = read_input(input_path)
+    if check_horizontal_visibility and check_columns:
+        return True
+    return False
