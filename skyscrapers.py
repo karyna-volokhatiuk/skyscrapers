@@ -1,3 +1,8 @@
+"""
+This module check combinations to win game 'Skyscrapers'.
+"""
+
+
 def read_input(path: str):
     """
     Read game board file from path.
